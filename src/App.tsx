@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {SongType} from "./utils/utils";
 import Player from "./components/Player";
 
@@ -33,11 +33,22 @@ const App = () => {
     const [currentSongIndex, setCurrentSongIndex] = useState<number>(0);
     const [nextSongIndex, setNextSongIndex] = useState<number>(currentSongIndex + 1);
 
+    useEffect(() => {
+        if (currentSongIndex + 1 > songs.length - 1){
+            setNextSongIndex(0)
+        }
+        else {
+            setNextSongIndex(currentSongIndex + 1);
+        }
+    }, [currentSongIndex, songs.length])
+
     return (
         <div className="App">
             <Player
-                song={songs[currentSongIndex]}
-                nextSong={songs[nextSongIndex]}
+                currentSongIndex={currentSongIndex}
+                setCurrentSongIndex={setCurrentSongIndex}
+                songs={songs}
+                nextSongIndex={nextSongIndex}
             />
         </div>
     );
